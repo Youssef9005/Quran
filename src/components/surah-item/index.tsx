@@ -36,6 +36,10 @@ export default function SurahItem({ surah }: Props) {
                     </div>
                 </Link>
             ))}
+
+            <div className="w-full p-16 xl:p-[135px]">
+
+            </div>
         </div>
     )
 }

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 
 export default function SurahPage() {
     const [ayahs, setAyahs] = useState<AyahsType | null>(null);
+    const [ayahsText , setAyahsText] = useState<string[]>([]);
     const pathname = usePathname();
     const surahNumber = pathname.split("/")[2];
 
@@ -17,6 +18,7 @@ export default function SurahPage() {
             const response = await axios.get(`https://quranapi.pages.dev/api/${surahNumber}.json`);
             const data = await response.data;
             setAyahs(data);
+            setAyahsText(data.arabic2)
         }
         getAyahs();
     }, [surahNumber]);
@@ -25,14 +27,14 @@ export default function SurahPage() {
         <main className="bg-gray-50 min-h-screen">
             {ayahs && (
                 <>
-                    <AyahHeader ayahs={ayahs} />
+                    <AyahHeader ayahs={ayahs} setAyahsText={setAyahsText}/>
 
                     <div className="max-w-2xl mx-auto px-4 py-8">
                         <StartOfAyah />
 
 
                         <div className="space-y-8">
-                            {ayahs.arabic1.map((ayah, index) => (
+                            {ayahsText.map((ayah, index) => (
                                 <AyahsBody key={index} ayah={ayah} index={index} />
                             ))}
                         </div>

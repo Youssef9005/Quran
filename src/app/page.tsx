@@ -46,14 +46,11 @@ export default function App() {
   }, [currentChannel]);
 
   return (
-    <main className="w-full min-h-screen">
+    <>
       <audio ref={audioRef} src="https://backup.qurango.net/radio/ahmad_alajmy"></audio>
       <MainHeader />
 
       <SurahItem surah={surah} />
-
-
-
 
       <RadioController
         audioRef={audioRef}
@@ -63,6 +60,6 @@ export default function App() {
         setCurrentChannel={setCurrentChannel}
         setRadioPlay={setRadioPlay} />
 
-    </main>
+    </>
   )
 }

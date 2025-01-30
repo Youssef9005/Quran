@@ -1,14 +1,38 @@
 import { AyahsType } from "@/types/ayah-type";
-import { Download, Home } from "lucide-react";
+import axios from "axios";
+import { Download, Home, Type } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Dispatch, SetStateAction, useState } from "react";
+import toast from "react-hot-toast";
 
 interface Props {
     ayahs: AyahsType;
+    setAyahsText: Dispatch<SetStateAction<string[]>>
 }
 
-export default function AyahHeader({ayahs} : Props) {
+export default function AyahHeader({ ayahs, setAyahsText }: Props) {
+    const [textWithFormat, setTextWithFormat] = useState<boolean>(true);
+    const pathname = usePathname();
+    const surahNumber = pathname.split("/")[2];
+
+    async function changeTextFormat() {
+        const response = await axios.get(`https://quranapi.pages.dev/api/${surahNumber}.json`);
+        const data = await response.data;
+        if (!textWithFormat) {
+            setAyahsText(data.arabic2);
+            setTextWithFormat(true);
+            toast.success( "😊 تم ازاله التشكيل بنجاح ");
+        } else {
+            setAyahsText(data.arabic1);
+            setTextWithFormat(false);
+            toast.success("😊 تم اضافه التشكيل بنجاح ");
+        }
+    }
+
     return (
         <header className="bg-white sticky top-0 z-10 shadow-sm">
+
             <div className="max-w-4xl mx-auto px-4 py-6">
                 <div className="flex items-center justify-between">
 
@@ -20,7 +44,6 @@ export default function AyahHeader({ayahs} : Props) {
                             {ayahs.surahNameTranslation} • {ayahs.totalAyah} آيات
                         </p>
                     </div>
-
 
                     <Link
                         href={ayahs.audio[1].originalUrl}
@@ -37,7 +60,13 @@ export default function AyahHeader({ayahs} : Props) {
                     >
                         <Home className="text-blue-500" />
                     </Link>
+
+                    <button className="p-2 hover:bg-violet-200 rounded-full transition-colors" onClick={changeTextFormat}>
+                        <Type className="text-violet-400" />
+                    </button>
+
                 </div>
+
             </div>
         </header>
     )
