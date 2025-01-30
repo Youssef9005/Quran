@@ -22,7 +22,7 @@ export default function AyahHeader({ ayahs, setAyahsText }: Props) {
         if (!textWithFormat) {
             setAyahsText(data.arabic2);
             setTextWithFormat(true);
-            toast.success( "😊 تم ازاله التشكيل بنجاح ");
+            toast.success("😊 تم ازاله التشكيل بنجاح ");
         } else {
             setAyahsText(data.arabic1);
             setTextWithFormat(false);
@@ -64,7 +64,6 @@ export default function AyahHeader({ ayahs, setAyahsText }: Props) {
                     <button className="p-2 hover:bg-violet-200 rounded-full transition-colors" onClick={changeTextFormat}>
                         <Type className="text-violet-400" />
                     </button>
-
                 </div>
 
             </div>
